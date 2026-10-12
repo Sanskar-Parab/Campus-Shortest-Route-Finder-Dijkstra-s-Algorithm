@@ -1,252 +1,146 @@
-# Campus-Shortest-Route-Finder-Dijkstra-s-Algorithm
-A college campus has several locations such as the Main Gate, Library, Computer Department, Laboratory and  Auditorium.. Develop a menu-driven C program that allows a user to enter the campus road network, select a source location,  and find the shortest distance from the selected source to every other location using Dijkstra's Algorithm
+# 🎓 Campus Shortest Route Finder — Dijkstra's Algorithm
 
-#include <stdio.h>
-#include <string.h>
+A menu-driven program developed in **C** to find the shortest routes between locations on a college campus using **Dijkstra's Shortest Path Algorithm**.
 
-#define MAX 20
-#define INF 9999
+## 📌 Project Overview
 
-int graph[MAX][MAX];
-char name[MAX][50];
-int dist[MAX], visited[MAX], parent[MAX];
-int n, source;
+The Campus Shortest Route Finder helps users calculate the shortest distance from a selected campus location to all other locations in the graph.
 
-void printPath(int v)
-{
-    if (parent[v] == -1)
-    {
-        printf("%s", name[v]);
-        return;
-    }
+The campus is represented as a weighted graph using an adjacency matrix. Users can enter location names, define distances between locations, select a source location, and calculate the shortest distances and paths.
 
-    printPath(parent[v]);
-    printf(" -> %s", name[v]);
-}
+## ✨ Features
 
-void dijkstra()
-{
-    int i, j, count;
-    int min, u;
+- **Enter Campus Graph:** Add campus locations and their connection distances.
+- **Display Adjacency Matrix:** View the graph's distance matrix.
+- **Select Source Location:** Choose the starting point from the list of locations.
+- **Find Shortest Distance:** Calculate shortest distances using Dijkstra's algorithm.
+- **Display Shortest Paths:** Show the route from the source to each reachable destination.
+- **Display Distance from Source:** View distances from the selected source to every location.
+- **Menu-Driven Interface:** Perform operations through a simple console menu.
 
-    for (i = 0; i < n; i++)
-    {
-        dist[i] = INF;
-        visited[i] = 0;
-        parent[i] = -1;
-    }
+## 🛠️ Technologies Used
 
-    dist[source] = 0;
+- **Programming Language:** C
+- **Algorithm:** Dijkstra's Shortest Path Algorithm
+- **Data Structures:** Two-dimensional arrays and one-dimensional arrays
+- **Graph Representation:** Weighted adjacency matrix
+- **Header Files:** `stdio.h`, `string.h`
 
-    /* Find shortest paths */
-    for (count = 0; count < n - 1; count++)
-    {
-        min = INF;
-        u = -1;
+## 🧠 Algorithm Used
 
-        for (i = 0; i < n; i++)
-        {
-            if (visited[i] == 0 && dist[i] < min)
-            {
-                min = dist[i];
-                u = i;
-            }
-        }
+Dijkstra's algorithm finds the shortest paths from a single source vertex to other vertices in a weighted graph with non-negative edge weights.
 
-        if (u == -1)
-            break;
+### How It Works
 
-        visited[u] = 1;
+1. Initialize all distances to infinity, except the source distance, which is set to zero.
+2. Select the unvisited location with the smallest known distance.
+3. Mark that location as visited.
+4. Update the distances of its connected locations when a shorter path is found.
+5. Repeat until all reachable locations have been processed.
+6. Use the parent array to reconstruct and display the shortest paths.
 
-        for (j = 0; j < n; j++)
-        {
-            if (visited[j] == 0 &&
-                graph[u][j] != INF &&
-                dist[u] + graph[u][j] < dist[j])
-            {
-                dist[j] = dist[u] + graph[u][j];
-                parent[j] = u;
-            }
-        }
-    }
-}
+## 🚀 Getting Started
 
-void enterGraph()
-{
-    int i, j;
+### Prerequisites
 
-    printf("\nEnter number of locations: ");
-    scanf("%d", &n);
+Install a C compiler, such as GCC or MinGW, or use an IDE such as Dev-C++ or Visual Studio Code with a configured C compiler.
 
-    printf("\nEnter location names:\n");
+### Clone the Repository
 
-    for (i = 0; i < n; i++)
-    {
-        printf("Location %d: ", i + 1);
-        scanf(" %[^\n]", name[i]);
-    }
+```bash
+git clone https://github.com/Sanskar-Parab/Campus-Shortest-Route-Finder-Dijkstra-s-Algorithm.git
+```
 
-    printf("\nEnter adjacency matrix:\n");
-    printf("Enter %d for no direct connection.\n\n", INF);
+### Navigate to the Project Directory
 
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n; j++)
-        {
-            scanf("%d", &graph[i][j]);
+```bash
+cd Campus-Shortest-Route-Finder-Dijkstra-s-Algorithm
+```
 
-            if (i == j)
-                graph[i][j] = 0;
-        }
-    }
+### Compile the Program
 
-    printf("\nGraph entered successfully.\n");
-}
+Save the source code as `main.c`, then run:
 
-void displayMatrix()
-{
-    int i, j;
+```bash
+gcc main.c -o campus_route
+```
 
-    printf("\nAdjacency Matrix:\n\n");
+### Run the Program
 
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n; j++)
-        {
-            if (graph[i][j] == INF)
-                printf("INF\t");
-            else
-                printf("%d\t", graph[i][j]);
-        }
-        printf("\n");
-    }
-}
+**Windows:**
 
-void selectSource()
-{
-    int i, choice;
+```powershell
+.\campus_route.exe
+```
 
-    printf("\nLocations:\n");
+**Linux/macOS:**
 
-    for (i = 0; i < n; i++)
-        printf("%d. %s\n", i + 1, name[i]);
+```bash
+./campus_route
+```
 
-    printf("\nEnter source location: ");
-    scanf("%d", &choice);
+## 📋 Menu Options
 
-    if (choice < 1 || choice > n)
-    {
-        printf("Invalid location!\n");
-        return;
-    }
+| Option | Operation |
+|---|---|
+| 1 | Enter Campus Graph |
+| 2 | Display Adjacency Matrix |
+| 3 | Select Source Location |
+| 4 | Find Shortest Distance |
+| 5 | Display Shortest Paths |
+| 6 | Display Distance from Source |
+| 7 | Exit |
 
-    source = choice - 1;
+## 📍 Graph Input Format
 
-    printf("\nSource selected: %s\n", name[source]);
-}
+- Enter the number of campus locations.
+- Enter each location's name.
+- Enter the adjacency matrix containing distances between locations.
+- Use `9999` to represent no direct connection.
+- Use `0` for the distance from a location to itself.
+- Select a source location to calculate shortest paths.
 
-void displayPaths()
-{
-    int i;
+**Note:** For an undirected campus graph, enter the same distance in both directions.
 
-    printf("\nShortest Paths from %s:\n\n", name[source]);
+## 📂 Project Structure
 
-    printf("%-25s %-15s %s\n",
-           "Destination", "Distance", "Shortest Path");
+```text
+Campus-Shortest-Route-Finder-Dijkstra-s-Algorithm/
+│
+├── main.c       # Main C source code
+└── README.md    # Project documentation
+```
 
-    printf("---------------------------------------------------------------\n");
+## ⏱️ Complexity Analysis
 
-    for (i = 0; i < n; i++)
-    {
-        if (i == source)
-            continue;
+For the adjacency-matrix implementation used in this project:
 
-        printf("%-25s ", name[i]);
+- **Time Complexity:** O(V²)
+- **Space Complexity:** O(V²)
 
-        if (dist[i] == INF)
-        {
-            printf("%-15s No path\n", "INF");
-        }
-        else
-        {
-            printf("%-15d ", dist[i]);
-            printPath(i);
-            printf("\n");
-        }
-    }
-}
+Here, `V` represents the number of campus locations.
 
-void displayDistances()
-{
-    int i;
+## 🎯 Applications
 
-    printf("\nDistance from %s:\n\n", name[source]);
+- Finding routes between college buildings.
+- Campus navigation for students and visitors.
+- Learning graph representation and shortest-path algorithms.
+- Understanding distance optimization in connected networks.
 
-    for (i = 0; i < n; i++)
-    {
-        if (dist[i] == INF)
-            printf("%s : INF\n", name[i]);
-        else
-            printf("%s : %d\n", name[i], dist[i]);
-    }
-}
+## 🔮 Future Enhancements
 
-int main()
-{
-    int choice;
+- Add a graphical user interface.
+- Display campus locations on a visual map.
+- Support dynamic addition and removal of locations.
+- Display estimated travel time.
+- Add support for alternative routes.
 
-    do
-    {
-        printf("\n====================================\n");
-        printf(" CAMPUS SHORTEST ROUTE FINDER\n");
-        printf("====================================\n");
-        printf("1. Enter Campus Graph\n");
-        printf("2. Display Adjacency Matrix\n");
-        printf("3. Select Source Location\n");
-        printf("4. Find Shortest Distance\n");
-        printf("5. Display Shortest Paths\n");
-        printf("6. Display Distance from Source\n");
-        printf("7. Exit\n");
+## 👨‍💻 Author
 
-        printf("\nEnter your choice: ");
-        scanf("%d", &choice);
+**Sanskar Parab**
 
-        switch (choice)
-        {
-            case 1:
-                enterGraph();
-                break;
+GitHub: [@Sanskar-Parab](https://github.com/Sanskar-Parab)
 
-            case 2:
-                displayMatrix();
-                break;
+---
 
-            case 3:
-                selectSource();
-                break;
-
-            case 4:
-                dijkstra();
-                printf("\nShortest distances calculated successfully.\n");
-                break;
-
-            case 5:
-                displayPaths();
-                break;
-
-            case 6:
-                displayDistances();
-                break;
-
-            case 7:
-                printf("\nProgram terminated.\n");
-                break;
-
-            default:
-                printf("\nInvalid choice!\n");
-        }
-
-    } while (choice != 7);
-
-    return 0;
-}
+⭐ If you find this project useful, consider starring the repository!
